@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Survey</title>
+    <style>
+        .audio-sample {
+            border: 2px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+        }
+        .question {
+            margin-top: 20px;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+        .question p {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Audio Survey</h1>
+    <form method="post">
+        {% csrf_token %}
+        {% for audio_sample in audio_examples %}
+            <div class="audio-sample">
+                <audio controls>
+                    <source src="{{ audio_sample }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+                {% for question in multiple_choice_questions %}
+                    <div class="question">
+                        <p>{{ question.prompt }}</p>
+                        
+                        {% for choice in question.choices %}
+                            <label>
+                                <input type="radio" name="mcq|{{ audio_sample }}|{{ question.prompt }}" value="{{ choice }}" {% if forloop.last %}checked{% endif %}>
+                                {{ choice }}
+                            </label><br>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+                {% for question in scale_questions %}
+                    <div class="question">
+                        <p>{{ question.prompt }}</p>
+                        <label for="{{ audio_sample }}|{{ question.degrees }}">Rate (1-{{ question.degrees }}):</label>
+                        <input type="range" name="sc|{{ audio_sample }}|{{ question.prompt }}" min="1" max="{{ question.degrees }}">
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
