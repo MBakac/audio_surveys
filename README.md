@@ -5,6 +5,7 @@
 - set up venv
 - install `requirements.txt`
 - run `python3 manage.py runserver`
+- run `python3 manage.py runserver`
 
 ## Possible problems:
 - check perms for the forlder specified in `settings.py` as MEDIA_ROOT
