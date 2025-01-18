@@ -4,7 +4,7 @@
 - clone repo
 - set up venv
 - install `requirements.txt`
-- run `python3 manage.py runserver`
+- run `python3 manage.py migrate`
 - run `python3 manage.py runserver`
 
 ## Possible problems:
